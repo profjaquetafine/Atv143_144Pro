@@ -17,7 +17,7 @@ export default class HomeScreen extends Component {
     super();
     this.state = {
       movieDetails: {},
-      ngrok_url: "https://d66c-2804-7f0-91c1-ba59-cc07-68fd-7da-845d.ngrok.io",
+      ngrok_url: "https://5cb4-2804-7f0-91c1-ba59-cc07-68fd-7da-845d.ngrok.io",
     };
   }
 
@@ -38,15 +38,39 @@ export default class HomeScreen extends Component {
   };
 
   likedMovie = () => {
-   
+    const url = this.state.ngrok_url + "/like";
+    axios
+      .get(url)
+      .then((response) => {
+        this.getMovie();
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   dislikedMovie = () => {
-  
+    const url = this.state.ngrok_url + "/dislike";
+    axios
+      .get(url)
+      .then((response) => {
+        this.getMovie();
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   notWatched = () => {
-    
+    const url = this.state.ngrok_url + "/did_not_watch";
+    axios
+      .get(url)
+      .then((response) => {
+        this.getMovie();
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   render() {
@@ -80,10 +104,9 @@ export default class HomeScreen extends Component {
                       <Text style={styles.title}>
                         {original_title}
                       </Text>
-                     {/* Adcionar o texto com a duração */}
-
-
-
+                      <Text style={styles.subtitle}>
+                        {release_date.split("-")[0]} | {duration} mins
+                      </Text>
                     </View>
                   </View>
       
@@ -98,11 +121,18 @@ export default class HomeScreen extends Component {
                         source={require("../assets/like.png")}
                       />
                     </TouchableOpacity>
-                    {/* Adicionar os botões  */}
-
-
-                    
-        
+                    <TouchableOpacity onPress={this.dislikedMovie}>
+                      <Image
+                        style={styles.iconImage}
+                        source={require("../assets/dislike.png")}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.notWatched}>
+                      <Image
+                        style={styles.iconImage}
+                        source={require("../assets/didNotWatch.png")}
+                      />
+                    </TouchableOpacity>
                   </View>
                 </View>
               </ImageBackground>
